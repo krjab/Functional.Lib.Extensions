@@ -21,6 +21,19 @@ public class ParseDoubleTests
 		input.TryParseDouble().HasValue.Should().BeTrue();
 	}
 	
+	[TestCase("1")]
+	[TestCase("223342")]
+	[TestCase("-1")]
+	[TestCase("1.2345")]
+	[TestCase("  0.345566")]
+	[TestCase("0.123")]
+	[TestCase("-0.123")]
+	[TestCase("-6.783")]
+	public void Parse_Double_Span_Success(string input)
+	{
+		input.AsSpan().TryParseDouble().HasValue.Should().BeTrue();
+	}
+	
 	[TestCase("")]
 	[TestCase("  ")]
 	[TestCase("some other string")]

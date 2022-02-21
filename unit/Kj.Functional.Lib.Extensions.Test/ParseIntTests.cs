@@ -16,6 +16,14 @@ public class ParseIntTests
 		input.TryParseInt().HasValue.Should().BeTrue();
 	}
 	
+	[TestCase("1")]
+	[TestCase("223342")]
+	[TestCase("-1")]
+	public void Parse_Int_Span_Success(string input)
+	{
+		input.AsSpan().TryParseInt().HasValue.Should().BeTrue();
+	}
+	
 	[TestCase("")]
 	[TestCase("  ")]
 	[TestCase("some other string")]
