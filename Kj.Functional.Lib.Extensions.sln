@@ -6,6 +6,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "unit", "unit", "{FEB12DFE-0
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kj.Functional.Lib.Extensions.Test", "unit\Kj.Functional.Lib.Extensions.Test\Kj.Functional.Lib.Extensions.Test.csproj", "{EDCDA495-9184-4780-9966-81F31C0D7203}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "doc", "doc", "{AC9202EB-2F4A-4AE7-A1DC-730ACADBE4E0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Code.Example.Functional.Extensions", "doc\Code.Example.Functional.Extensions\Code.Example.Functional.Extensions.csproj", "{D7039028-514B-41A3-A423-AF4E32AF2613}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -20,8 +24,13 @@ Global
 		{EDCDA495-9184-4780-9966-81F31C0D7203}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EDCDA495-9184-4780-9966-81F31C0D7203}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EDCDA495-9184-4780-9966-81F31C0D7203}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D7039028-514B-41A3-A423-AF4E32AF2613}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D7039028-514B-41A3-A423-AF4E32AF2613}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D7039028-514B-41A3-A423-AF4E32AF2613}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D7039028-514B-41A3-A423-AF4E32AF2613}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{EDCDA495-9184-4780-9966-81F31C0D7203} = {FEB12DFE-0744-4520-A819-FD553661078E}
+		{D7039028-514B-41A3-A423-AF4E32AF2613} = {AC9202EB-2F4A-4AE7-A1DC-730ACADBE4E0}
 	EndGlobalSection
 EndGlobal

@@ -1,16 +1,10 @@
 using System.Diagnostics.Contracts;
 using Kj.Functional.Lib.Core;
 
-namespace Kj.Functional.Lib.Extensions;
+namespace Kj.Functional.Lib.Extensions.Enumerable;
 
 public static class EnumerableExtensions
 {
-	[Pure]
-	public static Option<TV> LookUp<TK, TV>(this IDictionary<TK, TV> input, TK key)
-	{
-		return input.TryGetValue(key, out TV? val) ? val : Of.None;
-	}
-
 	[Pure]
 	public static Option<T> TryFirst<T>(this IEnumerable<T> enumerable)
 	{
@@ -24,4 +18,5 @@ public static class EnumerableExtensions
 		var filtered = enumerable.FirstOrDefault(predicate);
 		return filtered == null ? Of.None: filtered;
 	}
+	
 }

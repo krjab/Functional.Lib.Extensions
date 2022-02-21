@@ -1,6 +1,7 @@
 using System;
 using FluentAssertions;
 using Kj.Functional.Lib.Core;
+using Kj.Functional.Lib.Extensions.Enumerable;
 using NUnit.Framework;
 
 namespace Kj.Functional.Lib.Extensions.Test;
