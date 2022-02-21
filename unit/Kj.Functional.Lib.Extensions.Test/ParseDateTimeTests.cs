@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using FluentAssertions;
 using Kj.Functional.Lib.Extensions.Parse;
 using NUnit.Framework;
@@ -52,6 +53,35 @@ public class ParseDateTimeTests
 		{
 			date.ToUniversalTime().Should().Be(expected);	
 		}
-		
+	}
+
+	private static readonly CultureInfo _cultureEnUs = new("en-us");
+	private static readonly CultureInfo _cultureDeDe = new("de-de");
+	private static readonly IEnumerable<object[]> _dateTimeParseForCultureWithValues = new[]
+	{
+		new object[] { "2012-01-02", _cultureEnUs, new DateTime(2012, 1, 2) },
+		new object[] { "2012/11/02", _cultureEnUs, new DateTime(2012, 11, 02) },
+		new object[] { "11/02/2014", _cultureEnUs, new DateTime(2014, 11, 02) },
+		new object[] { "2012-11-08", _cultureDeDe, new DateTime(2012, 11, 08) },
+		new object[] { "11/08/2016", _cultureDeDe, new DateTime(2016, 08, 11) },
+	};
+	
+	[TestCaseSource(nameof(_dateTimeParseForCultureWithValues))]
+	public void Parse_Date_Value_WithCulture(string input, CultureInfo cultureInfo, DateTime expected)
+	{
+		var date = input.TryParseDateTime(cultureInfo).Match(i => i, () =>
+		{
+			Assert.Fail("Parse failed");
+			throw new Exception("unreachable");
+		});
+
+		if (date.Kind == DateTimeKind.Unspecified)
+		{
+			date.Should().Be(expected);
+		}
+		else
+		{
+			date.ToUniversalTime().Should().Be(expected);	
+		}
 	}
 }
