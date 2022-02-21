@@ -54,6 +54,21 @@ public static class ParseHelperExtensions
 	}
 
 	/// <summary>
+	/// Tries to parse a string to double (any style, invariant culture)
+	/// </summary>
+	/// <param name="input">input string</param>
+	/// <returns>optional double</returns>
+	public static Option<double> TryParseDouble(this string input)
+	{
+		if (Double.TryParse(input, NumberStyles.Any, CultureInfo.InvariantCulture, out double res))
+		{
+			return res;
+		}
+
+		return Of.None;
+	}
+	
+	/// <summary>
 	/// Tries to parse a string to specified enum.
 	/// </summary>
 	/// <param name="input">input string</param>
