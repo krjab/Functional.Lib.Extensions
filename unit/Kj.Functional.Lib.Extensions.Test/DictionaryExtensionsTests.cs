@@ -28,7 +28,6 @@ public class DictionaryExtensionsTests
 
 		dict.LookUp(1).HasValue.Should().BeTrue();
 	}
-	
 
 	[Test]
 	public void Lookup_NonExistingValue()

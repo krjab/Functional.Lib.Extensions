@@ -5,8 +5,6 @@ namespace Kj.Functional.Lib.Extensions;
 
 public static class EnumerableExtensions
 {
-
-
 	[Pure]
 	public static Option<T> TryFirst<T>(this IEnumerable<T> enumerable)
 	{
@@ -20,4 +18,5 @@ public static class EnumerableExtensions
 		var filtered = enumerable.FirstOrDefault(predicate);
 		return filtered == null ? Of.None: filtered;
 	}
+	
 }
