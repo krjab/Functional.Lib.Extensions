@@ -7,6 +7,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="Kj.Functional.Lib" Version="0.2.5" />
+      <PackageReference Include="Kj.Functional.Lib" Version="0.2.6" />
     </ItemGroup>
 </Project>

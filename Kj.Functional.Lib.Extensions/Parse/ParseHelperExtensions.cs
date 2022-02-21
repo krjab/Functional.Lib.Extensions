@@ -39,6 +39,21 @@ public static class ParseHelperExtensions
 	}
 
 	/// <summary>
+	/// Tries to parse a string to decimal (any style, invariant culture)
+	/// </summary>
+	/// <param name="input">input string</param>
+	/// <returns>optional decimal</returns>
+	public static Option<decimal> TryParseDecimal(this string input)
+	{
+		if (Decimal.TryParse(input, NumberStyles.Any, CultureInfo.InvariantCulture, out decimal res))
+		{
+			return res;
+		}
+
+		return Of.None;
+	}
+
+	/// <summary>
 	/// Tries to parse a string to specified enum.
 	/// </summary>
 	/// <param name="input">input string</param>
