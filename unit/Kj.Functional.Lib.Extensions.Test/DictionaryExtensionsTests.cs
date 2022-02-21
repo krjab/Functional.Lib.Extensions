@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using AutoFixture;
 using FluentAssertions;
+using Kj.Functional.Lib.Extensions.Enumerable;
 using NUnit.Framework;
 
 namespace Kj.Functional.Lib.Extensions.Test;

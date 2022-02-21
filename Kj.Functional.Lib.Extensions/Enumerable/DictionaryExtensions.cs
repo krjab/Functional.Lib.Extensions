@@ -2,7 +2,7 @@ using System.Collections.Specialized;
 using System.Diagnostics.Contracts;
 using Kj.Functional.Lib.Core;
 
-namespace Kj.Functional.Lib.Extensions;
+namespace Kj.Functional.Lib.Extensions.Enumerable;
 
 public static class DictionaryExtensions
 {
@@ -15,7 +15,21 @@ public static class DictionaryExtensions
 	/// <typeparam name="TV">value type</typeparam>
 	/// <returns>optional value (if found)</returns>
 	[Pure]
-	public static Option<TV> LookUp<TK, TV>(this IDictionary<TK, TV> input, TK key)
+	public static Option<TV> LookUp<TK, TV>(this Dictionary<TK, TV> input, TK key) where TK:notnull
+	{
+		return input.TryGetValue(key, out TV? val) ? val : Of.None;
+	}
+	
+	/// <summary>
+	/// Tries to lookup entry wih the specified key in the <paramref name="input"/> dictionary.
+	/// </summary>
+	/// <param name="input">dictionary to use</param>
+	/// <param name="key">key to find</param>
+	/// <typeparam name="TK">key type</typeparam>
+	/// <typeparam name="TV">value type</typeparam>
+	/// <returns>optional value (if found)</returns>
+	[Pure]
+	public static Option<TV> LookUp<TK, TV>(this IReadOnlyDictionary<TK, TV> input, TK key)
 	{
 		return input.TryGetValue(key, out TV? val) ? val : Of.None;
 	}

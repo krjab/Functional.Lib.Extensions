@@ -1,7 +1,7 @@
 using System.Diagnostics.Contracts;
 using Kj.Functional.Lib.Core;
 
-namespace Kj.Functional.Lib.Extensions;
+namespace Kj.Functional.Lib.Extensions.Enumerable;
 
 public static class EnumerableExtensions
 {
