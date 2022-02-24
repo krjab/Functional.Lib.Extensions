@@ -4,7 +4,7 @@ using Kj.Functional.Lib.Core;
 using Kj.Functional.Lib.Extensions.Enumerable;
 using NUnit.Framework;
 
-namespace Kj.Functional.Lib.Extensions.Test;
+namespace Kj.Functional.Lib.Extensions.Test.Enumerable;
 
 [TestFixture]
 public class EnumerableExtensionsTests

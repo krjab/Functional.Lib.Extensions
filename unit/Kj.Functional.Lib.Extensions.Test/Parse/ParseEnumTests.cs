@@ -2,11 +2,10 @@ using Kj.Functional.Lib.Core;
 using Kj.Functional.Lib.Extensions.Parse;
 using NUnit.Framework;
 
-
-namespace Kj.Functional.Lib.Extensions.Test;
+namespace Kj.Functional.Lib.Extensions.Test.Parse;
 
 [TestFixture]
-public class ParseHelperTests
+public class ParseEnumTests
 {
 
 

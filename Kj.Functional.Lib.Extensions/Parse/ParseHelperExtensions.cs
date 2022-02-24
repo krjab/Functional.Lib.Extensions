@@ -13,7 +13,7 @@ public static class ParseHelperExtensions
 	/// <param name="input">input string</param>
 	/// <returns>optional int</returns>
 	[Pure]
-	public static Option<int> TryParseInt(this string input)
+	internal static Option<int> TryParseInt(this string input)
 	{
 		return input.AsSpan().TryParseInt();
 	}
@@ -24,7 +24,7 @@ public static class ParseHelperExtensions
 	/// <param name="input">input string</param>
 	/// <returns>optional int</returns>
 	[Pure]
-	public static Option<int> TryParseInt(this ReadOnlySpan<char> input)
+	internal static Option<int> TryParseInt(this ReadOnlySpan<char> input)
 	{
 		if (Int32.TryParse(input, NumberStyles.Any, CultureInfo.InvariantCulture, out int res))
 		{
