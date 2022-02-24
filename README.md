@@ -46,19 +46,21 @@ Simplifies usage of most popular methods/routines, like parsing, accessing colle
 	{
 		return _createUserFunc(
 			inputName.TryParseName(), 
-			birthYear.TryParseInt(), 
-			numberPoints.TryParseDouble()
+			birthYear.TryParseNumber<int>(), 
+			numberPoints.TryParseNumber<double>()
 			);
 	}
 	
 	// Optional values are "passed further" in the chained call to finally create an object from all "extracted values" (if present)
 	// Any value being empty breaks the chain, leading to a None value being returned instead of the parsed object
-	private static readonly Func<Option<string>, Option<int>, Option<double>, Option<UserInfo>> _createUserFunc =
-		(optUserName, optYearOfBirth, optUserPoints) =>
-			optUserName.Bind(name => optYearOfBirth.Bind(year => optUserPoints.Map(
+	private static readonly
+		Func<Either<string, ParseErrorInfo>, Either<int, ParseErrorInfo>, Either<double, ParseErrorInfo>,
+			Option<UserInfo>> _createUserFunc =
+			(optUserName, optYearOfBirth, optUserPoints) =>
+				optUserName.BindResult(name => optYearOfBirth.BindResult(year => optUserPoints.MapResult(
 						p => new UserInfo(name, year, p)
 					)
-			));
+				)).AsOption();
 ```
 
 

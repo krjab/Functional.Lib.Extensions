@@ -18,7 +18,7 @@ public class ParseDecimalTests
 	[TestCase("-6.783")]
 	public void Parse_Dec_Success(string input)
 	{
-		input.TryParseDecimal().HasValue.Should().BeTrue();
+		input.TryParseNumber<decimal>().HasSuccessValue().Should().BeTrue();
 	}
 	
 	[TestCase("")]
@@ -27,7 +27,7 @@ public class ParseDecimalTests
 	[TestCase("x1231")]
 	public void Parse_Dec_Fails(string input)
 	{
-		input.TryParseDecimal().HasValue.Should().BeFalse();
+		input.TryParseNumber<decimal>().HasSuccessValue().Should().BeFalse();
 	}
 
 	[TestCase("1", ExpectedResult = 1)]
@@ -37,9 +37,9 @@ public class ParseDecimalTests
 	[TestCase("0.1234", ExpectedResult = 0.1234)]
 	public decimal Parse_Dec_Value(string input)
 	{
-		return input.TryParseDecimal().Match(i => i, () =>
+		return input.TryParseNumber<decimal>().Match(i => i, err =>
 		{
-			Assert.Fail("Parse failed");
+			Assert.Fail(err.ErrorText);
 			throw new Exception("unreachable");
 		});
 	}

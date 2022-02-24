@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics.Contracts;
 using Kj.Functional.Lib.Core;
+using Kj.Functional.Lib.Extensions.Models.Validation;
 using Kj.Functional.Lib.Extensions.Parse;
 using Option;
 
@@ -9,7 +10,8 @@ public static class TryParseUsages
 {
 	public static void ParseAndValidateNumberString(string inputString)
 	{
-		var result = inputString.TryParseInt() // try parse value
+		var result = inputString.TryParseNumber<int>() // try parse value
+				.AsOption()
 				.Filter(v => v > 0) // filter if value > 0
 				.Map(v => v * 2) // multiply valid value by 2
 			;
@@ -26,32 +28,34 @@ public static class TryParseUsages
 
 	public record UserInfo(string UserName, int YearOfBirth, double NumberOfPoints);
 
-	private static Option<string> TryParseName(this string input)
+	private static Either<string, ParseErrorInfo> TryParseName(this string input)
 	{
 		if (input.Length > 5)
 		{
 			return input;
 		}
 
-		return Of.None;
+		return ParseErrorInfo.FromText("Name to short");
 	}
 	
 	public static Option<UserInfo> TryParseUserFromStrings(string inputName, string birthYear, string numberPoints)
 	{
 		return _createUserFunc(
 			inputName.TryParseName(), 
-			birthYear.TryParseInt(), 
-			numberPoints.TryParseDouble()
+			birthYear.TryParseNumber<int>(), 
+			numberPoints.TryParseNumber<double>()
 			);
 	}
 	
 	// Optional values are "passed further" in the chained call to finally create an object from all "extracted values" (if present)
 	// Any value being empty breaks the chain, leading to a None value being returned instead of the parsed object
-	private static readonly Func<Option<string>, Option<int>, Option<double>, Option<UserInfo>> _createUserFunc =
-		(optUserName, optYearOfBirth, optUserPoints) =>
-			optUserName.Bind(name => optYearOfBirth.Bind(year => optUserPoints.Map(
+	private static readonly
+		Func<Either<string, ParseErrorInfo>, Either<int, ParseErrorInfo>, Either<double, ParseErrorInfo>,
+			Option<UserInfo>> _createUserFunc =
+			(optUserName, optYearOfBirth, optUserPoints) =>
+				optUserName.BindResult(name => optYearOfBirth.BindResult(year => optUserPoints.MapResult(
 						p => new UserInfo(name, year, p)
 					)
-			));
+				)).AsOption();
 
 }
