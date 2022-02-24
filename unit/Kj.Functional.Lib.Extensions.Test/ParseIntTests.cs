@@ -1,5 +1,6 @@
 using System;
 using FluentAssertions;
+using Kj.Functional.Lib.Core;
 using Kj.Functional.Lib.Extensions.Parse;
 using NUnit.Framework;
 
@@ -44,5 +45,17 @@ public class ParseIntTests
 			Assert.Fail("Parse failed");
 			throw new Exception("unreachable");
 		});
+	}
+
+	[TestCase("")]
+	[TestCase(null)]
+	[TestCase("abc")]
+	public void Parse_Int_Error(string input)
+	{
+		const string errorResult = "invalid" ;
+		input.TryParseOrError<int, string>(() => errorResult)
+
+			.Do(i => Assert.Fail(),
+				s => s.Should().Be(errorResult));
 	}
 }

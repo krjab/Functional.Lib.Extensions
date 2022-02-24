@@ -6,6 +6,7 @@ namespace Kj.Functional.Lib.Extensions.Parse;
 
 public static class ParseHelperExtensions
 {
+	
 	/// <summary>
 	/// Tries to parse a string to integer (any style, invariant culture)
 	/// </summary>
