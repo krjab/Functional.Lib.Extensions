@@ -31,9 +31,10 @@ public static class ParseNumberExtensions
 	
 	[Pure]
 	private static Either<TValue, ParseErrorInfo> TryParseNumber<TValue>(this ReadOnlySpan<char> input, CultureInfo cultureInfo)
-	 where TValue:struct
+				where TValue:struct
 	{
 		var convertedType = typeof(TValue);
+		
 		if (convertedType == typeof(int))
 		{
 			return input.TryParseInt(cultureInfo).MapToTValue<TValue, int>();
@@ -54,15 +55,29 @@ public static class ParseNumberExtensions
 			return input.TryParseShort(cultureInfo).MapToTValue<TValue, short>();
 		}
 		
-		return _parseNotDefinedError;
+		if (convertedType == typeof(long))
+		{
+			return input.TryParseLong(cultureInfo).MapToTValue<TValue, long>();
+		}
 		
+		if (convertedType == typeof(byte))
+		{
+			return input.TryParseByte(cultureInfo).MapToTValue<TValue, byte>();
+		}
+		
+		if (convertedType == typeof(uint))
+		{
+			return input.TryParseUint(cultureInfo).MapToTValue<TValue, uint>();
+		}
+		
+		if (convertedType == typeof(ushort))
+		{
+			return input.TryParseUshort(cultureInfo).MapToTValue<TValue, ushort>();
+		}
+		
+		return _parseNotDefinedError;
 	}
-
-	private static Either<TValue, ParseErrorInfo> ParseInteger<TValue>(ReadOnlySpan<char> input) where TValue:struct
-	{
-		return input.TryParseInt().MapToTValue<TValue, int>();
-	}
-
+	
 	private static Either<TValue, ParseErrorInfo> MapToTValue<TValue, TParse>(this Either<TParse, ParseErrorInfo> inputEither)
 		where TValue: struct
 	{

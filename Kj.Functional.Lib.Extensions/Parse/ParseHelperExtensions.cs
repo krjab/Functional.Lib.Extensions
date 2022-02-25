@@ -93,7 +93,7 @@ public static class ParseHelperExtensions
 	/// <param name="input">input string</param>
 	/// <returns>optional decimal</returns>
 	[Pure]
-	internal static Either<decimal, ParseErrorInfo> TryParseDecimal(this ReadOnlySpan<char> input)
+	private static Either<decimal, ParseErrorInfo> TryParseDecimal(this ReadOnlySpan<char> input)
 	{
 		return input.TryParseDecimal(CultureInfo.InvariantCulture);
 	}
@@ -146,6 +146,50 @@ public static class ParseHelperExtensions
 	internal static Either<short, ParseErrorInfo> TryParseShort(this ReadOnlySpan<char> input, CultureInfo cultureInfo)
 	{
 		if (Int16.TryParse(input, NumberStyles.Any, cultureInfo, out short res))
+		{
+			return res;
+		}
+
+		return _parseError;
+	}
+	
+	[Pure]
+	internal static Either<long, ParseErrorInfo> TryParseLong(this ReadOnlySpan<char> input, CultureInfo cultureInfo)
+	{
+		if (Int64.TryParse(input, NumberStyles.Any, cultureInfo, out long res))
+		{
+			return res;
+		}
+
+		return _parseError;
+	}
+
+	[Pure]
+	internal static Either<byte, ParseErrorInfo> TryParseByte(this ReadOnlySpan<char> input, CultureInfo cultureInfo)
+	{
+		if (Byte.TryParse(input, NumberStyles.Any, cultureInfo, out byte res))
+		{
+			return res;
+		}
+
+		return _parseError;
+	}	
+	
+	[Pure]
+	internal static Either<uint, ParseErrorInfo> TryParseUint(this ReadOnlySpan<char> input, CultureInfo cultureInfo)
+	{
+		if (UInt32.TryParse(input, NumberStyles.Any, cultureInfo, out uint res))
+		{
+			return res;
+		}
+
+		return _parseError;
+	}	
+	
+	[Pure]
+	internal static Either<ushort, ParseErrorInfo> TryParseUshort(this ReadOnlySpan<char> input, CultureInfo cultureInfo)
+	{
+		if (UInt16.TryParse(input, NumberStyles.Any, cultureInfo, out ushort res))
 		{
 			return res;
 		}
