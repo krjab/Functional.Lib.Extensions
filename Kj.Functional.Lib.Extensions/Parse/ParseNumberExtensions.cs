@@ -7,18 +7,37 @@ namespace Kj.Functional.Lib.Extensions.Parse;
 
 public static class ParseNumberExtensions
 {
+	/// <summary>
+	/// Tries to parse the string to the number of the specified primitive type using the invariant culture.
+	/// </summary>
+	/// <param name="input"></param>
+	/// <typeparam name="TValue"></typeparam>
+	/// <returns>result or <see cref="ParseErrorInfo"/> </returns>
 	[Pure]
 	public static Either<TValue, ParseErrorInfo> TryParseNumber<TValue>(this string input) where TValue:struct
 	{
 		return input.AsSpan().TryParseNumber<TValue>(CultureInfo.InvariantCulture);
 	}
-	
+
+	/// <summary>
+	/// Tries to parse the string to the number of the specified primitive type using the specified culture.
+	/// </summary>
+	/// <param name="input"></param>
+	/// <param name="cultureInfo"></param>
+	/// <typeparam name="TValue"></typeparam>
+	/// <returns>result or <see cref="ParseErrorInfo"/> </returns>
 	[Pure]
 	public static Either<TValue, ParseErrorInfo> TryParseNumber<TValue>(this string input, CultureInfo cultureInfo) where TValue:struct
 	{
 		return input.AsSpan().TryParseNumber<TValue>(cultureInfo);
 	}
 
+	/// <summary>
+	/// Tries to parse the char span to the number of the specified primitive type using the invariant culture.
+	/// </summary>
+	/// <param name="input"></param>
+	/// <typeparam name="TValue"></typeparam>
+	/// <returns>result or <see cref="ParseErrorInfo"/> </returns>
 	[Pure]
 	public static Either<TValue, ParseErrorInfo> TryParseNumber<TValue>(this ReadOnlySpan<char> input)
 		where TValue : struct
@@ -26,9 +45,15 @@ public static class ParseNumberExtensions
 		return input.TryParseNumber<TValue>(CultureInfo.InvariantCulture);
 	}
 
-	private static readonly ParseErrorInfo _parseError = ParseErrorInfo.FromText("Parse error");
 	private static readonly ParseErrorInfo _parseNotDefinedError = ParseErrorInfo.FromText("Parsing not defined");
 	
+	/// <summary>
+	/// Tries to parse the char span to the number of the specified primitive type using the specified culture.
+	/// </summary>
+	/// <param name="input"></param>
+	/// <param name="cultureInfo"></param>
+	/// <typeparam name="TValue"></typeparam>
+	/// <returns>result or <see cref="ParseErrorInfo"/> </returns>
 	[Pure]
 	private static Either<TValue, ParseErrorInfo> TryParseNumber<TValue>(this ReadOnlySpan<char> input, CultureInfo cultureInfo)
 				where TValue:struct
