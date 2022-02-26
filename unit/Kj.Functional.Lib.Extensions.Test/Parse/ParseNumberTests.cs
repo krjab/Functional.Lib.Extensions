@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using System.Numerics;
 using FluentAssertions;
 using Kj.Functional.Lib.Extensions.Parse;
@@ -57,5 +58,36 @@ public class ParseNumberTests
 	public void ParseNumberByte()
 	{
 		_SIMPLE_NUMBER_STRING.TryParseNumber<byte>().HasSuccessValue().Should().BeTrue();
+	}
+
+
+	[TestCase("123", "en-us", ExpectedResult = 123)]
+	[TestCase("-234", "en-us", ExpectedResult = -234)]
+	[TestCase("123,456", "en-us", ExpectedResult = 123456)]
+	[TestCase("123.456", "de-de", ExpectedResult = 123456)]
+	public int ParseInt_WithCulture(string toParse, string cultureCode)
+	{
+		return toParse.TryParseNumber<int>(new CultureInfo(cultureCode))
+			.Match(v => v, err =>
+			{
+				Assert.Fail(err.ErrorText);
+				throw new Exception("Should not happen");
+			});
+	}
+	
+	[TestCase("123", "en-us", ExpectedResult = 123)]
+	[TestCase("-234", "en-us", ExpectedResult = -234)]
+	[TestCase("123,456", "en-us", ExpectedResult = 123456)]
+	[TestCase("123.456", "de-de", ExpectedResult = 123456)]
+	[TestCase("12,34", "de-de", ExpectedResult = 12.34)]
+	[TestCase("11.23", "en-us", ExpectedResult = 11.23)]
+	public decimal ParseDecimal_WithCulture(string toParse, string cultureCode)
+	{
+		return toParse.TryParseNumber<decimal>(new CultureInfo(cultureCode))
+			.Match(v => v, err =>
+			{
+				Assert.Fail(err.ErrorText);
+				throw new Exception("Should not happen");
+			});
 	}
 }
