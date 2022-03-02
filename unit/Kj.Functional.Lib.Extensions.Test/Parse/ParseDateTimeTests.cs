@@ -15,7 +15,7 @@ public class ParseDateTimeTests
 	[TestCase("2022-03-13Z11:22")]
 	public void Parse_Date_Success(string input)
 	{
-		input.TryParseDateTime().HasValue.Should().BeTrue();
+		input.TryParseDateTime().HasSuccessValue().Should().BeTrue();
 	}
 	
 	[TestCase("")]
@@ -26,7 +26,7 @@ public class ParseDateTimeTests
 	[TestCase("2022-13-13Z")]
 	public void Parse_Date_Fails(string input)
 	{
-		input.TryParseDateTime().HasValue.Should().BeFalse();
+		input.TryParseDateTime().HasSuccessValue().Should().BeFalse();
 	}
 
 	private static readonly IEnumerable<object[]> _dateTimeParseWithValues = new[]
@@ -39,9 +39,9 @@ public class ParseDateTimeTests
 	[TestCaseSource(nameof(_dateTimeParseWithValues))]
 	public void Parse_Date_Value(string input, DateTime expected)
 	{
-		var date = input.TryParseDateTime().Match(i => i, () =>
+		var date = input.TryParseDateTime().Match(i => i, err =>
 		{
-			Assert.Fail("Parse failed");
+			Assert.Fail(err.ErrorText);
 			throw new Exception("unreachable");
 		});
 
@@ -69,9 +69,9 @@ public class ParseDateTimeTests
 	[TestCaseSource(nameof(_dateTimeParseForCultureWithValues))]
 	public void Parse_Date_Value_WithCulture(string input, CultureInfo cultureInfo, DateTime expected)
 	{
-		var date = input.TryParseDateTime(cultureInfo).Match(i => i, () =>
+		var date = input.TryParseDateTime(cultureInfo).Match(i => i, err =>
 		{
-			Assert.Fail("Parse failed");
+			Assert.Fail(err.ErrorText);
 			throw new Exception("unreachable");
 		});
 

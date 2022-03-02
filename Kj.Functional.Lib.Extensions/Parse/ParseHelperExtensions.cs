@@ -5,7 +5,7 @@ using Kj.Functional.Lib.Extensions.Models.Validation;
 
 namespace Kj.Functional.Lib.Extensions.Parse;
 
-public static class ParseHelperExtensions
+internal static class ParseHelperExtensions
 {
 
 	/// <summary>
@@ -48,33 +48,7 @@ public static class ParseHelperExtensions
 
 		return _parseError;
 	}
-	
-	/// <summary>
-	/// Tries to parse a string to boolean (invariant culture)
-	/// </summary>
-	/// <param name="input">input string</param>
-	/// <returns>optional boolean</returns>
-	[Pure]
-	public static Option<bool> TryParseBool(this string input)
-	{
-		return input.AsSpan().TryParseBool();
-	}
-	
-	/// <summary>
-	/// Tries to parse a character span to boolean (invariant culture)
-	/// </summary>
-	/// <param name="input">input string</param>
-	/// <returns>optional boolean</returns>
-	[Pure]
-	public static Option<bool> TryParseBool(this ReadOnlySpan<char> input)
-	{
-		if (Boolean.TryParse(input, out bool res))
-		{
-			return res;
-		}
-		
-		return Of.None;
-	}
+
 
 	/// <summary>
 	/// Tries to parse a string to decimal (any style, invariant culture)
@@ -126,7 +100,7 @@ public static class ParseHelperExtensions
 	/// <param name="input">input string</param>
 	/// <returns>optional double</returns>
 	[Pure]
-	internal static Either<double, ParseErrorInfo> TryParseDouble(this ReadOnlySpan<char> input)
+	private static Either<double, ParseErrorInfo> TryParseDouble(this ReadOnlySpan<char> input)
 	{
 		return input.TryParseDouble(CultureInfo.InvariantCulture);
 	}
@@ -195,22 +169,5 @@ public static class ParseHelperExtensions
 		}
 
 		return _parseError;
-	}
-	
-	/// <summary>
-	/// Tries to parse a string to specified enum.
-	/// </summary>
-	/// <param name="input">input string</param>
-	/// <param name="ignoreCase">case sensitivity</param>
-	/// <returns>optional enum</returns>
-	[Pure]
-	public static Option<T> TryParseEnum<T>(this string input, bool ignoreCase) where T:struct
-	{
-		if (Enum.TryParse(input, ignoreCase, out T val))
-		{
-			return val;
-		}
-
-		return Of.None;
 	}
 }

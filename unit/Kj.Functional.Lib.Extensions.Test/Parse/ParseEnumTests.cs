@@ -7,8 +7,6 @@ namespace Kj.Functional.Lib.Extensions.Test.Parse;
 [TestFixture]
 public class ParseEnumTests
 {
-
-
 	public enum TestEnum
 	{
 		One=1,
@@ -23,9 +21,24 @@ public class ParseEnumTests
 	{
 		var parsed = input.TryParseEnum<TestEnum>(true);
 		return parsed
-				.Do(v => { }, Assert.Fail)
+				.Do(v => { }, err=> Assert.Fail(err.ErrorText))
 				.Match(v => v,
-					() => (TestEnum)0)
+					_ => (TestEnum)0)
+			;
+	}
+	
+	[TestCase("xx1")]
+	[TestCase("ABC")]
+	[TestCase("")]
+	[TestCase(null)]
+	public void ParseEnum_Error(string input)
+	{
+		var parsed = input.TryParseEnum<TestEnum>(true);
+		parsed
+				.Do(v =>
+				{
+					Assert.Fail();
+				}, _=>Assert.Pass())
 			;
 	}
 }
