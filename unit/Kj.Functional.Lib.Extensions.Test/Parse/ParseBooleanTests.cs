@@ -3,7 +3,7 @@ using FluentAssertions;
 using Kj.Functional.Lib.Extensions.Parse;
 using NUnit.Framework;
 
-namespace Kj.Functional.Lib.Extensions.Test;
+namespace Kj.Functional.Lib.Extensions.Test.Parse;
 
 [TestFixture]
 public class ParseBooleanTests
@@ -13,7 +13,7 @@ public class ParseBooleanTests
 	[TestCase("false")]
 	public void Parse_Bool_Success(string input)
 	{
-		input.TryParseBool().HasValue.Should().BeTrue();
+		input.TryParseBool().HasSuccessValue().Should().BeTrue();
 	}
 	
 	[TestCase("")]
@@ -23,7 +23,7 @@ public class ParseBooleanTests
 	[TestCase("FA")]
 	public void Parse_Bool_Fails(string input)
 	{
-		input.TryParseBool().HasValue.Should().BeFalse();
+		input.TryParseBool().HasSuccessValue().Should().BeFalse();
 	}	
 	
 	[TestCase("true", ExpectedResult = true)]
@@ -31,9 +31,9 @@ public class ParseBooleanTests
 	[TestCase("TRUE", ExpectedResult = true)]
 	public bool Parse_Bool_Value(string input)
 	{
-		return input.TryParseBool().Match(b => b, () =>
+		return input.TryParseBool().Match(b => b, err =>
 		{
-			Assert.Fail("Parse failed");
+			Assert.Fail(err.ErrorText);
 			throw new Exception("unreachable");
 		});
 	}

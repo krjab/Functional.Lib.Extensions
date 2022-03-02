@@ -40,5 +40,28 @@ Simplifies usage of most popular methods/routines, like parsing, accessing colle
 			.Or(() => $"invalid user name");
 ```
 
+## Using a chain of optional values to create an object:
+```
+	public static Option<UserInfo> TryParseUserFromStrings(string inputName, string birthYear, string numberPoints)
+	{
+		return _createUserFunc(
+			inputName.TryParseName(), 
+			birthYear.TryParseNumber<int>(), 
+			numberPoints.TryParseNumber<double>()
+			);
+	}
+	
+	// Optional values are "passed further" in the chained call to finally create an object from all "extracted values" (if present)
+	// Any value being empty breaks the chain, leading to a None value being returned instead of the parsed object
+	private static readonly
+		Func<Either<string, ParseErrorInfo>, Either<int, ParseErrorInfo>, Either<double, ParseErrorInfo>,
+			Option<UserInfo>> _createUserFunc =
+			(optUserName, optYearOfBirth, optUserPoints) =>
+				optUserName.BindResult(name => optYearOfBirth.BindResult(year => optUserPoints.MapResult(
+						p => new UserInfo(name, year, p)
+					)
+				)).AsOption();
+```
+
 
 

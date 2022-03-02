@@ -3,7 +3,7 @@ using FluentAssertions;
 using Kj.Functional.Lib.Extensions.Parse;
 using NUnit.Framework;
 
-namespace Kj.Functional.Lib.Extensions.Test;
+namespace Kj.Functional.Lib.Extensions.Test.Parse;
 
 [TestFixture]
 public class ParseDoubleTests
@@ -18,7 +18,7 @@ public class ParseDoubleTests
 	[TestCase("-6.783")]
 	public void Parse_Double_Success(string input)
 	{
-		input.TryParseDouble().HasValue.Should().BeTrue();
+		input.TryParseNumber<double>().HasSuccessValue().Should().BeTrue();
 	}
 	
 	[TestCase("1")]
@@ -31,7 +31,7 @@ public class ParseDoubleTests
 	[TestCase("-6.783")]
 	public void Parse_Double_Span_Success(string input)
 	{
-		input.AsSpan().TryParseDouble().HasValue.Should().BeTrue();
+		input.AsSpan().TryParseNumber<double>().HasSuccessValue().Should().BeTrue();
 	}
 	
 	[TestCase("")]
@@ -40,7 +40,7 @@ public class ParseDoubleTests
 	[TestCase("x1231")]
 	public void Parse_Double_Fails(string input)
 	{
-		input.TryParseDouble().HasValue.Should().BeFalse();
+		input.TryParseNumber<double>().HasSuccessValue().Should().BeFalse();
 	}
 
 	[TestCase("1", ExpectedResult = 1)]
@@ -50,9 +50,9 @@ public class ParseDoubleTests
 	[TestCase("0.1234", ExpectedResult = 0.1234)]
 	public double Parse_Double_Value(string input)
 	{
-		return input.TryParseDouble().Match(i => i, () =>
+		return input.TryParseNumber<double>().Match(i => i, err =>
 		{
-			Assert.Fail("Parse failed");
+			Assert.Fail(err.ErrorText);
 			throw new Exception("unreachable");
 		});
 	}	
