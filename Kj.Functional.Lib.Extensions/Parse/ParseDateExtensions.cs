@@ -15,7 +15,7 @@ public static class ParseDateExtensions
 	[Pure]
 	public static Either<DateTime, ParseErrorInfo> TryParseDateTime(this string input)
 	{
-		return input.AsSpan().TryParseDateTime();
+		return input.AsSpan().TryParseDateTime(CultureInfo.InvariantCulture);
 	}
 
 	/// <summary>

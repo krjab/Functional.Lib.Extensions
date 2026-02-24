@@ -58,7 +58,7 @@ internal static class ParseHelperExtensions
 	[Pure]
 	internal static Either<decimal, ParseErrorInfo> TryParseDecimal(this string input)
 	{
-		return input.AsSpan().TryParseDecimal();
+		return input.AsSpan().TryParseDecimal(CultureInfo.InvariantCulture);
 	}
 
 	/// <summary>
@@ -91,7 +91,7 @@ internal static class ParseHelperExtensions
 	[Pure]
 	internal static Either<double, ParseErrorInfo> TryParseDouble(this string input)
 	{
-		return input.AsSpan().TryParseDouble();
+		return input.AsSpan().TryParseDouble(CultureInfo.InvariantCulture);
 	}
 	
 	/// <summary>
